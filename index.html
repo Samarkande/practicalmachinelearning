@@ -84,7 +84,7 @@ img {
 <p>For this project, the training and test data sets are <a href="https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv">here</a> and <a href="https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv">here</a>, respectively.</p>
 <p><strong>Goal</strong></p>
 <p>The goal of your project is to predict the manner in which they did the exercise. This is the “<code>classe</code>” variable in the training set. You may use any of the other variables to predict with. You should create a report describing how you built your model, how you used cross validation, what you think the expected out of sample error is, and why you made the choices you did. You will also use your prediction model to predict 20 different test cases.</p>
-<p>Your submission for the Peer Review portion should consist of a link to a Github repo with your R markdown and compiled HTML file describing your analysis. Please constrain the text of the writeup to &lt; 2000 words and the number of figures to be less than 5. It will make it easier for the graders if you submit a repo with a gh-pages branch so the HTML page can be viewed online (and you always want to make it easy on graders.</p>
+<p>Your submission for the Peer Review portion should consist of a link to a Github repo with your R markdown and compiled HTML file describing your analysis. Please constrain the text of the writeup to &lt; 2000 words and the number of figures to be less than 5. It will make it easier for the graders if you submit a repo with a gh-pages branch so the HTML page can be viewed online (and you always want to make it easy on graders).</p>
 </div>
 <div id="results" class="section level1">
 <h1>Results</h1>
@@ -131,7 +131,7 @@ mydata_test &lt;- read.csv(&quot;Data/pml-testing.csv&quot;, na.strings=c(&quot;
 dim(mydata_train); dim(mydata_test)</code></pre>
 <pre><code>## [1] 19622   160</code></pre>
 <pre><code>## [1]  20 160</code></pre>
-<p>The training and test data sets have <span class="math">\(19622\)</span> and <span class="math">\(20\)</span> observations, respectively. Both have <span class="math">\(160\)</span> variables.</p>
+<p>The training and test data sets have <span class="math">\(19622\)</span> and <span class="math">\(20\)</span> observations, respectively. Both have <span class="math">\(160\)</span> variables (or predictors).</p>
 <pre class="r"><code># Check structure of train data set 
 str(mydata_train)</code></pre>
 <pre><code>## 'data.frame':    19622 obs. of  160 variables:
@@ -235,7 +235,7 @@ str(mydata_train)</code></pre>
 ##  $ min_yaw_dumbbell        : Factor w/ 72 levels &quot;-0.1&quot;,&quot;-0.2&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
 ##  $ amplitude_roll_dumbbell : num  NA NA NA NA NA NA NA NA NA NA ...
 ##   [list output truncated]</code></pre>
-<p>We can see from the above that some variables (or predictors) have important numbers of NA values. Let’s check in details this presence of NAs:</p>
+<p>We can see from the above that some variables have important numbers of NA values. Let’s check in details this presence of NAs:</p>
 <pre class="r"><code># Number of variables with stricly NA values
 sum(colSums(is.na(mydata_train))==dim(mydata_train)[1])</code></pre>
 <pre><code>## [1] 0</code></pre>
@@ -245,7 +245,7 @@ sum(colSums(is.na(mydata_train))&gt;=0.95*dim(mydata_train)[1])</code></pre>
 <pre class="r"><code># Number of variables without NA values
 sum(colSums(!is.na(mydata_train))==dim(mydata_train)[1])</code></pre>
 <pre><code>## [1] 60</code></pre>
-<p>There is zero predictor with stricly NAs. However, <span class="math">\(100\)</span> variables are composed of at least <span class="math">\(95\)</span>% of NAs, while <span class="math">\(60\)</span> variables have no NAs. In this condition, we consider these last predictors (with no NAs). Moreover, we also omit the first seven variables (related to the ID of persons) which have a minor influence on the outcome <code>classe</code>:</p>
+<p>There is zero predictor with stricly NAs. However, <span class="math">\(100\)</span> variables are composed of at least <span class="math">\(95\)</span>% of NAs, while <span class="math">\(60\)</span> variables have no NAs. In these conditions, we consider these last predictors (with no NAs). Moreover, we also omit the first seven variables (related to the ID of persons) which have a minor influence on the outcome <code>classe</code>:</p>
 <pre class="r"><code># Find variables (without NAs)
 NoNA_Var&lt;- which(colSums(!is.na(mydata_train))==dim(mydata_train)[1])
 # Take into account the above variables without the first seven variables
@@ -255,7 +255,7 @@ mydata_test &lt;- mydata_test %&gt;% select(NoNA_Var) %&gt;% select(-c(1:7))</co
 <pre class="r"><code># Find our variables (without NAs)
 nearZeroVar(mydata_train)</code></pre>
 <pre><code>## integer(0)</code></pre>
-<p>No variables with very low variance are found in our train data set. Let’s also omit highly correlated variables as follows (over correlation of 0.9):</p>
+<p>No variables with very low variance are found in our train data set. Let’s also omit highly correlated variables (over correlation of 0.9) as follows:</p>
 <pre class="r"><code># Correlation values between variables 
 correlations&lt;-  cor(select(mydata_train,-classe))
 # Cut off correlation over 0.9
@@ -300,8 +300,8 @@ dim(mydata_sub_train)</code></pre>
 <pre class="r"><code>dim(mydata_valid)</code></pre>
 <pre><code>## [1] 3923   43</code></pre>
 <p>The subtrain and validation data sets are splitted from <span class="math">\(80\)</span>% and <span class="math">\(20\)</span>% of the train data set, respectively.</p>
-<p><strong>Predictive Models</strong><br />The present project is a classification study in <em>if-then</em> kinds of ways. Obviously, we first use the Decision Tree model, and if necesssary the Random Forest algorithm, both from the caret package.</p>
-<p>We use the k-fold cross validation resampling technique in this study:</p>
+<p><strong>Predictive Models</strong><br />The present project is a classification study in <em>if-then</em> kinds of ways. Obviously, we first use the Decision Tree model, and if necesssary the Random Forest algorithm (both from the caret package).</p>
+<p>The k-fold cross validation resampling technique is used in this study:</p>
 <pre class="r"><code># Type of resampling / 5-fold cross-validation
 control  &lt;-  trainControl(method= 'cv', number=  5)</code></pre>
 <p><em>Decision Tree</em></p>
@@ -440,7 +440,7 @@ confusionMatrix(prediction, mydata_valid$classe)</code></pre>
 ## Detection Rate         0.2835   0.1886   0.1723   0.1603   0.1828
 ## Detection Prevalence   0.2870   0.1902   0.1774   0.1621   0.1833
 ## Balanced Accuracy      0.9957   0.9865   0.9911   0.9880   0.9969</code></pre>
-<p>In the above condition, we have an acccuracy of <span class="math">\(0.9875\)</span> (in 95% CI: [0.9835, 0.9907]).<strong>The out of sample error is <span class="math">\(1.25\)</span>% (=1-accuracy) which leads to consider the Random Forest model as a good classifier</strong> to obtain outcomes of the test data set as follows:</p>
+<p>In the above condition, we have an acccuracy of <span class="math">\(0.9875\)</span> (in 95% CI: [0.9835, 0.9907]).<strong>The out of sample error is <span class="math">\(1.25\)</span>% (=1-accuracy) which leads to consider the Random Forest model as a good classifier</strong> to predict outcomes of the test data set as follows:</p>
 <pre class="r"><code># predict on the validation data set
 result_1&lt;-predict(RF_model, mydata_test_trans)
 # predict on the validation data set (with the first 30 important predictors)
@@ -448,14 +448,14 @@ result_2&lt;-predict(RF_model_2, mydata_test_trans[c(Imp_vars,'classe')])</code>
 <p>Note that we have similar predictive results with the first important and all predictors:</p>
 <pre class="r"><code>identical(result_1,result_2)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
-<p>With this condition, the required outcomes for this project are the following:</p>
+<p>With this condition, the required <span class="math">\(20\)</span> outcomes for this project are the following:</p>
 <pre class="r"><code>result_2</code></pre>
 <pre><code>##  [1] B A B A A E D B A A B C B A E E A B B B
 ## Levels: A B C D E</code></pre>
 </div>
 <div id="conclusions" class="section level1">
 <h1>Conclusions</h1>
-<p>A study is presented to predict barbell lifts according to different classes. Data sets (train and test) are first reduced via the characteristics of predictors. These characteristics are the percentage of NAs values, low variance, correlation and skewness. The variables of the data sets are also scaled. The train data set is splitted into subtrain and validation parts to construct a predictive model and evaluate its accuracy. Decision Tree and Random Forest are applied and it was found that this latter is more accurate and gives satisfactory results even with the most mportant predictors.</p>
+<p>A study is presented to predict barbell lifts according to different classes. Data sets (train and test) are first reduced via the characteristics of predictors. These characteristics are the percentage of NAs values, low variance, correlation and skewness. The variables of the data sets are also scaled. The train data set is splitted into subtrain and validation parts to construct a predictive model and evaluate its accuracy. Decision Tree and Random Forest are applied (from the caret package) and it was found that this latter is more accurate and gives satisfactory results even with the most important predictors in the aim to reduce computing cost.</p>
 <p>This project is reproducible and was done with the following environment:</p>
 <pre class="r"><code># Software environment
 sessionInfo()</code></pre>

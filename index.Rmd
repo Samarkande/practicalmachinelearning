@@ -30,7 +30,7 @@ For this project, the training and test data sets are [here](https://d396qusza40
 
 The goal of your project is to predict the manner in which they did the exercise. This is the “```classe```” variable in the training set. You may use any of the other variables to predict with. You should create a report describing how you built your model, how you used cross validation, what you think the expected out of sample error is, and why you made the choices you did. You will also use your prediction model to predict 20 different test cases.
 
-Your submission for the Peer Review portion should consist of a link to a Github repo with your R markdown and compiled HTML file describing your analysis. Please constrain the text of the writeup to < 2000 words and the number of figures to be less than 5. It will make it easier for the graders if you submit a repo with a gh-pages branch so the HTML page can be viewed online (and you always want to make it easy on graders.
+Your submission for the Peer Review portion should consist of a link to a Github repo with your R markdown and compiled HTML file describing your analysis. Please constrain the text of the writeup to < 2000 words and the number of figures to be less than 5. It will make it easier for the graders if you submit a repo with a gh-pages branch so the HTML page can be viewed online (and you always want to make it easy on graders).
 
 # Results
 **Data Processing**  
@@ -77,12 +77,12 @@ mydata_test <- read.csv("Data/pml-testing.csv", na.strings=c("NA", ""))
 dim(mydata_train); dim(mydata_test)
 ```
 
-The training and test data sets have $19622$ and $20$ observations, respectively. Both have $160$ variables.  
+The training and test data sets have $19622$ and $20$ observations, respectively. Both have $160$ variables (or predictors).  
 ```{r}
 # Check structure of train data set 
 str(mydata_train)
 ```
-We can see from the above that some variables (or predictors) have important numbers of NA values. Let's check in details this presence of NAs:  
+We can see from the above that some variables have important numbers of NA values. Let's check in details this presence of NAs:  
 
 ```{r}
 # Number of variables with stricly NA values
@@ -94,7 +94,7 @@ sum(colSums(is.na(mydata_train))>=0.95*dim(mydata_train)[1])
 # Number of variables without NA values
 sum(colSums(!is.na(mydata_train))==dim(mydata_train)[1])
 ```
-There is zero predictor with stricly NAs. However, $100$ variables are composed of at least $95$% of NAs, while $60$ variables have no NAs. In this condition, we consider these last predictors (with no NAs). Moreover, we also omit the first seven variables (related to the ID of persons) which have a minor influence on the outcome ```classe```: 
+There is zero predictor with stricly NAs. However, $100$ variables are composed of at least $95$% of NAs, while $60$ variables have no NAs. In these conditions, we consider these last predictors (with no NAs). Moreover, we also omit the first seven variables (related to the ID of persons) which have a minor influence on the outcome ```classe```: 
 
 ```{r}
 # Find variables (without NAs)
@@ -110,7 +110,7 @@ Let's check variables with very low variance:
 # Find our variables (without NAs)
 nearZeroVar(mydata_train)
 ```
-No variables with very low variance are found in our train data set. Let's also omit highly correlated variables as follows (over correlation of 0.9): 
+No variables with very low variance are found in our train data set. Let's also omit highly correlated variables (over correlation of 0.9) as follows: 
 
 ```{r}
 # Correlation values between variables 
@@ -169,9 +169,9 @@ dim(mydata_valid)
 The subtrain and validation data sets are splitted from $80$% and $20$% of the train data set, respectively. 
 
 **Predictive Models**  
-The present project is a classification study in *if-then* kinds of ways. Obviously, we first use the Decision Tree model, and if necesssary the Random Forest algorithm, both from the caret package. 
+The present project is a classification study in *if-then* kinds of ways. Obviously, we first use the Decision Tree model, and if necesssary the Random Forest algorithm (both from the caret package). 
 
-We use the k-fold cross validation resampling technique in this study:
+The k-fold cross validation resampling technique is used in this study:
 ```{r}
 # Type of resampling / 5-fold cross-validation
 control  <-  trainControl(method= 'cv', number=  5)
@@ -222,7 +222,7 @@ prediction <- predict(RF_model_2, mydata_valid[c(Imp_vars,'classe')])
 confusionMatrix(prediction, mydata_valid$classe)
 ```
 
-In the above condition, we have an acccuracy of $0.9875$ (in 95% CI: [0.9835, 0.9907]).**The out of sample error is $1.25$% (=1-accuracy) which leads to consider the Random Forest model as a good classifier** to obtain outcomes of the test data set as follows: 
+In the above condition, we have an acccuracy of $0.9875$ (in 95% CI: [0.9835, 0.9907]).**The out of sample error is $1.25$% (=1-accuracy) which leads to consider the Random Forest model as a good classifier** to predict outcomes of the test data set as follows: 
 
 ```{r,cache=T}
 # predict on the validation data set
@@ -236,7 +236,7 @@ Note that we have similar predictive results with the first important and all pr
 identical(result_1,result_2)
 ```
 
-With this condition, the required outcomes for this project are the following: 
+With this condition, the required $20$ outcomes for this project are the following: 
 ```{r}
 result_2
 ```
@@ -244,7 +244,7 @@ result_2
   
 # Conclusions
 
-A study is presented to predict barbell lifts according to different classes. Data sets (train and test) are first reduced via the characteristics of predictors. These characteristics are the percentage of NAs values, low variance, correlation and skewness. The variables of the data sets are also scaled. The train data set is splitted into subtrain and validation parts to construct a predictive model and evaluate its accuracy. Decision Tree and Random Forest are applied and it was found that this latter is more accurate and gives satisfactory results even with the most mportant predictors. 
+A study is presented to predict barbell lifts according to different classes. Data sets (train and test) are first reduced via the characteristics of predictors. These characteristics are the percentage of NAs values, low variance, correlation and skewness. The variables of the data sets are also scaled. The train data set is splitted into subtrain and validation parts to construct a predictive model and evaluate its accuracy. Decision Tree and Random Forest are applied (from the caret package) and it was found that this latter is more accurate and gives satisfactory results even with the most important predictors in the aim to reduce computing cost. 
 
 
 This project is reproducible and was done with the following environment:  
