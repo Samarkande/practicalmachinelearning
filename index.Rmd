@@ -244,7 +244,7 @@ result_2
   
 # Conclusions
 
-A study is presented to predict barbell lifts according to different classes. Data sets (train and test) are first reduced via the characteristics of predictors. These characteristics are the percentage of NAs values, low variance, correlation and skewness. The variables of the data sets are also scaled. The train data set is splitted into subtrain and validation parts to construct a predictive model and evaluate its accuracy. Decision Tree and Random Forest are applied (from the caret package) and it was found that this latter is more accurate and gives satisfactory results even with the most important predictors in the aim to reduce computing cost. 
+A study is presented to predict barbell lifts according to different classes. Data sets (train and test) are first reduced via the characteristics of predictors. These characteristics are the percentage of NAs values, low variance, correlation and skewness. The variables of the data sets are also scaled. The train data set is splitted into subtrain and validation parts to construct a predictive model and evaluate its accuracy. Decision Tree and Random Forest are applied (from the caret package) and it was found that this latter is more accurate and gives satisfactory results even with the most important predictors in the aim to reduce computing cost (with an out of sample error of $1.25$%). 
 
 
 This project is reproducible and was done with the following environment:  
