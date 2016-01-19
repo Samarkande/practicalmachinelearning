@@ -68,19 +68,433 @@ img {
 </div>
 
 
-<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
-<pre class="r"><code>summary(cars)</code></pre>
-<pre><code>##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00</code></pre>
-<p>You can also embed plots, for example:</p>
-<p><img src="data:image/png;base64,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" title alt width="672" /></p>
-<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p><strong>Background</strong></p>
+<p>Using devices such as <em>Jawbone Up, Nike FuelBand, and Fitbit</em> is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement – a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how <em>much</em> of a particular activity they do, but they rarely quantify <em>how well they do it</em>.<br />In this project, we will be to use data from accelerometers on the belt, forearm, arm, and dumbell of six participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different classes as follows:</p>
+<ul>
+<li><code>Class A</code>: Exactly according to the specification</li>
+<li><code>Class B</code>; Throwing the elbows to the front<br /></li>
+<li><code>Class C</code>: Lifting the dumbbell only halfway<br /></li>
+<li><code>Class D</code>: Lowering the dumbbell only halfway<br /></li>
+<li><code>Class E</code>: Throwing the hips to the front</li>
+</ul>
+<p>More information is available from the website <a href="http://groupware.les.inf.puc-rio.br/har">here</a> (see the section on the Weight Lifting Exercise Dataset).</p>
+<p><strong>Data</strong></p>
+<p>For this project, the training and test data sets are <a href="https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv">here</a> and <a href="https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv">here</a>, respectively.</p>
+<p><strong>Goal</strong></p>
+<p>The goal of your project is to predict the manner in which they did the exercise. This is the “<code>classe</code>” variable in the training set. You may use any of the other variables to predict with. You should create a report describing how you built your model, how you used cross validation, what you think the expected out of sample error is, and why you made the choices you did. You will also use your prediction model to predict 20 different test cases.</p>
+<p>Your submission for the Peer Review portion should consist of a link to a Github repo with your R markdown and compiled HTML file describing your analysis. Please constrain the text of the writeup to &lt; 2000 words and the number of figures to be less than 5. It will make it easier for the graders if you submit a repo with a gh-pages branch so the HTML page can be viewed online (and you always want to make it easy on graders.</p>
+</div>
+<div id="results" class="section level1">
+<h1>Results</h1>
+<p><strong>Data Processing</strong></p>
+<pre class="r"><code># Required libraries
+suppressMessages(library(caret))</code></pre>
+<pre><code>## Warning: package 'caret' was built under R version 3.2.3</code></pre>
+<pre><code>## Warning: package 'lattice' was built under R version 3.2.2</code></pre>
+<pre class="r"><code>suppressMessages(library(dplyr))</code></pre>
+<pre><code>## Warning: package 'dplyr' was built under R version 3.2.2</code></pre>
+<pre class="r"><code>suppressMessages(library(ggplot2))
+suppressMessages(library(rpart.plot)) </code></pre>
+<pre><code>## Warning: package 'rpart.plot' was built under R version 3.2.3</code></pre>
+<pre><code>## Warning: package 'rpart' was built under R version 3.2.3</code></pre>
+<pre class="r"><code>suppressMessages(library(e1071))  # Skewness function use  </code></pre>
+<pre><code>## Warning: package 'e1071' was built under R version 3.2.2</code></pre>
+<pre class="r"><code># Setting seed for reproducibility 
+set.seed(123)</code></pre>
+<pre class="r"><code># Create Data repo
+if(!dir.exists('./Data')){dir.create('./Data')}
+
+# Create Figures repo
+if(!dir.exists('./Figures')){dir.create('./Figures')}
+
+# Load train data set
+if(!file.exists('./Data/pml-training.csv')){
+fileUrl&lt;- 'https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv'
+download.file(fileUrl,destfile='./Data/pml-training.csv',mode = 'wb')
+}
+
+# Load test data set
+if(!file.exists('./Data/pml-testing.csv')){
+fileUrl&lt;- 'https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv'
+download.file(fileUrl,destfile='./Data/pml-testing.csv',mode = 'wb')
+}
+
+# Load train data set
+mydata_train &lt;- read.csv(&quot;Data/pml-training.csv&quot;, na.strings=c(&quot;NA&quot;, &quot;&quot;))
+
+# Load test data set
+mydata_test &lt;- read.csv(&quot;Data/pml-testing.csv&quot;, na.strings=c(&quot;NA&quot;, &quot;&quot;))
+
+# Check dimension of data sets
+dim(mydata_train); dim(mydata_test)</code></pre>
+<pre><code>## [1] 19622   160</code></pre>
+<pre><code>## [1]  20 160</code></pre>
+<p>The training and test data sets have <span class="math">\(19622\)</span> and <span class="math">\(20\)</span> observations, respectively. Both have <span class="math">\(160\)</span> variables.</p>
+<pre class="r"><code># Check structure of train data set 
+str(mydata_train)</code></pre>
+<pre><code>## 'data.frame':    19622 obs. of  160 variables:
+##  $ X                       : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ user_name               : Factor w/ 6 levels &quot;adelmo&quot;,&quot;carlitos&quot;,..: 2 2 2 2 2 2 2 2 2 2 ...
+##  $ raw_timestamp_part_1    : int  1323084231 1323084231 1323084231 1323084232 1323084232 1323084232 1323084232 1323084232 1323084232 1323084232 ...
+##  $ raw_timestamp_part_2    : int  788290 808298 820366 120339 196328 304277 368296 440390 484323 484434 ...
+##  $ cvtd_timestamp          : Factor w/ 20 levels &quot;02/12/2011 13:32&quot;,..: 9 9 9 9 9 9 9 9 9 9 ...
+##  $ new_window              : Factor w/ 2 levels &quot;no&quot;,&quot;yes&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ num_window              : int  11 11 11 12 12 12 12 12 12 12 ...
+##  $ roll_belt               : num  1.41 1.41 1.42 1.48 1.48 1.45 1.42 1.42 1.43 1.45 ...
+##  $ pitch_belt              : num  8.07 8.07 8.07 8.05 8.07 8.06 8.09 8.13 8.16 8.17 ...
+##  $ yaw_belt                : num  -94.4 -94.4 -94.4 -94.4 -94.4 -94.4 -94.4 -94.4 -94.4 -94.4 ...
+##  $ total_accel_belt        : int  3 3 3 3 3 3 3 3 3 3 ...
+##  $ kurtosis_roll_belt      : Factor w/ 396 levels &quot;-0.016850&quot;,&quot;-0.021024&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ kurtosis_picth_belt     : Factor w/ 316 levels &quot;-0.021887&quot;,&quot;-0.060755&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ kurtosis_yaw_belt       : Factor w/ 1 level &quot;#DIV/0!&quot;: NA NA NA NA NA NA NA NA NA NA ...
+##  $ skewness_roll_belt      : Factor w/ 394 levels &quot;-0.003095&quot;,&quot;-0.010002&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ skewness_roll_belt.1    : Factor w/ 337 levels &quot;-0.005928&quot;,&quot;-0.005960&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ skewness_yaw_belt       : Factor w/ 1 level &quot;#DIV/0!&quot;: NA NA NA NA NA NA NA NA NA NA ...
+##  $ max_roll_belt           : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ max_picth_belt          : int  NA NA NA NA NA NA NA NA NA NA ...
+##  $ max_yaw_belt            : Factor w/ 67 levels &quot;-0.1&quot;,&quot;-0.2&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ min_roll_belt           : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ min_pitch_belt          : int  NA NA NA NA NA NA NA NA NA NA ...
+##  $ min_yaw_belt            : Factor w/ 67 levels &quot;-0.1&quot;,&quot;-0.2&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ amplitude_roll_belt     : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ amplitude_pitch_belt    : int  NA NA NA NA NA NA NA NA NA NA ...
+##  $ amplitude_yaw_belt      : Factor w/ 3 levels &quot;#DIV/0!&quot;,&quot;0.00&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ var_total_accel_belt    : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ avg_roll_belt           : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ stddev_roll_belt        : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ var_roll_belt           : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ avg_pitch_belt          : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ stddev_pitch_belt       : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ var_pitch_belt          : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ avg_yaw_belt            : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ stddev_yaw_belt         : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ var_yaw_belt            : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ gyros_belt_x            : num  0 0.02 0 0.02 0.02 0.02 0.02 0.02 0.02 0.03 ...
+##  $ gyros_belt_y            : num  0 0 0 0 0.02 0 0 0 0 0 ...
+##  $ gyros_belt_z            : num  -0.02 -0.02 -0.02 -0.03 -0.02 -0.02 -0.02 -0.02 -0.02 0 ...
+##  $ accel_belt_x            : int  -21 -22 -20 -22 -21 -21 -22 -22 -20 -21 ...
+##  $ accel_belt_y            : int  4 4 5 3 2 4 3 4 2 4 ...
+##  $ accel_belt_z            : int  22 22 23 21 24 21 21 21 24 22 ...
+##  $ magnet_belt_x           : int  -3 -7 -2 -6 -6 0 -4 -2 1 -3 ...
+##  $ magnet_belt_y           : int  599 608 600 604 600 603 599 603 602 609 ...
+##  $ magnet_belt_z           : int  -313 -311 -305 -310 -302 -312 -311 -313 -312 -308 ...
+##  $ roll_arm                : num  -128 -128 -128 -128 -128 -128 -128 -128 -128 -128 ...
+##  $ pitch_arm               : num  22.5 22.5 22.5 22.1 22.1 22 21.9 21.8 21.7 21.6 ...
+##  $ yaw_arm                 : num  -161 -161 -161 -161 -161 -161 -161 -161 -161 -161 ...
+##  $ total_accel_arm         : int  34 34 34 34 34 34 34 34 34 34 ...
+##  $ var_accel_arm           : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ avg_roll_arm            : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ stddev_roll_arm         : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ var_roll_arm            : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ avg_pitch_arm           : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ stddev_pitch_arm        : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ var_pitch_arm           : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ avg_yaw_arm             : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ stddev_yaw_arm          : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ var_yaw_arm             : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ gyros_arm_x             : num  0 0.02 0.02 0.02 0 0.02 0 0.02 0.02 0.02 ...
+##  $ gyros_arm_y             : num  0 -0.02 -0.02 -0.03 -0.03 -0.03 -0.03 -0.02 -0.03 -0.03 ...
+##  $ gyros_arm_z             : num  -0.02 -0.02 -0.02 0.02 0 0 0 0 -0.02 -0.02 ...
+##  $ accel_arm_x             : int  -288 -290 -289 -289 -289 -289 -289 -289 -288 -288 ...
+##  $ accel_arm_y             : int  109 110 110 111 111 111 111 111 109 110 ...
+##  $ accel_arm_z             : int  -123 -125 -126 -123 -123 -122 -125 -124 -122 -124 ...
+##  $ magnet_arm_x            : int  -368 -369 -368 -372 -374 -369 -373 -372 -369 -376 ...
+##  $ magnet_arm_y            : int  337 337 344 344 337 342 336 338 341 334 ...
+##  $ magnet_arm_z            : int  516 513 513 512 506 513 509 510 518 516 ...
+##  $ kurtosis_roll_arm       : Factor w/ 329 levels &quot;-0.02438&quot;,&quot;-0.04190&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ kurtosis_picth_arm      : Factor w/ 327 levels &quot;-0.00484&quot;,&quot;-0.01311&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ kurtosis_yaw_arm        : Factor w/ 394 levels &quot;-0.01548&quot;,&quot;-0.01749&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ skewness_roll_arm       : Factor w/ 330 levels &quot;-0.00051&quot;,&quot;-0.00696&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ skewness_pitch_arm      : Factor w/ 327 levels &quot;-0.00184&quot;,&quot;-0.01185&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ skewness_yaw_arm        : Factor w/ 394 levels &quot;-0.00311&quot;,&quot;-0.00562&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ max_roll_arm            : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ max_picth_arm           : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ max_yaw_arm             : int  NA NA NA NA NA NA NA NA NA NA ...
+##  $ min_roll_arm            : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ min_pitch_arm           : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ min_yaw_arm             : int  NA NA NA NA NA NA NA NA NA NA ...
+##  $ amplitude_roll_arm      : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ amplitude_pitch_arm     : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ amplitude_yaw_arm       : int  NA NA NA NA NA NA NA NA NA NA ...
+##  $ roll_dumbbell           : num  13.1 13.1 12.9 13.4 13.4 ...
+##  $ pitch_dumbbell          : num  -70.5 -70.6 -70.3 -70.4 -70.4 ...
+##  $ yaw_dumbbell            : num  -84.9 -84.7 -85.1 -84.9 -84.9 ...
+##  $ kurtosis_roll_dumbbell  : Factor w/ 397 levels &quot;-0.0035&quot;,&quot;-0.0073&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ kurtosis_picth_dumbbell : Factor w/ 400 levels &quot;-0.0163&quot;,&quot;-0.0233&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ kurtosis_yaw_dumbbell   : Factor w/ 1 level &quot;#DIV/0!&quot;: NA NA NA NA NA NA NA NA NA NA ...
+##  $ skewness_roll_dumbbell  : Factor w/ 400 levels &quot;-0.0082&quot;,&quot;-0.0096&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ skewness_pitch_dumbbell : Factor w/ 401 levels &quot;-0.0053&quot;,&quot;-0.0084&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ skewness_yaw_dumbbell   : Factor w/ 1 level &quot;#DIV/0!&quot;: NA NA NA NA NA NA NA NA NA NA ...
+##  $ max_roll_dumbbell       : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ max_picth_dumbbell      : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ max_yaw_dumbbell        : Factor w/ 72 levels &quot;-0.1&quot;,&quot;-0.2&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ min_roll_dumbbell       : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ min_pitch_dumbbell      : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ min_yaw_dumbbell        : Factor w/ 72 levels &quot;-0.1&quot;,&quot;-0.2&quot;,..: NA NA NA NA NA NA NA NA NA NA ...
+##  $ amplitude_roll_dumbbell : num  NA NA NA NA NA NA NA NA NA NA ...
+##   [list output truncated]</code></pre>
+<p>We can see from the above that some variables (or predictors) have important numbers of NA values. Let’s check in details this presence of NAs:</p>
+<pre class="r"><code># Number of variables with stricly NA values
+sum(colSums(is.na(mydata_train))==dim(mydata_train)[1])</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code># Number of variables with over 95 % of NA values
+sum(colSums(is.na(mydata_train))&gt;=0.95*dim(mydata_train)[1])</code></pre>
+<pre><code>## [1] 100</code></pre>
+<pre class="r"><code># Number of variables without NA values
+sum(colSums(!is.na(mydata_train))==dim(mydata_train)[1])</code></pre>
+<pre><code>## [1] 60</code></pre>
+<p>There is zero predictor with stricly NAs. However, <span class="math">\(100\)</span> variables are composed of at least <span class="math">\(95\)</span>% of NAs, while <span class="math">\(60\)</span> variables have no NAs. In this condition, we consider these last predictors (with no NAs). Moreover, we also omit the first seven variables (related to the ID of persons) which have a minor influence on the outcome <code>classe</code>:</p>
+<pre class="r"><code># Find variables (without NAs)
+NoNA_Var&lt;- which(colSums(!is.na(mydata_train))==dim(mydata_train)[1])
+# Take into account the above variables without the first seven variables
+mydata_train &lt;- mydata_train %&gt;% select(NoNA_Var) %&gt;% select(-c(1:7))
+mydata_test &lt;- mydata_test %&gt;% select(NoNA_Var) %&gt;% select(-c(1:7))</code></pre>
+<p>Let’s check variables with very low variance:</p>
+<pre class="r"><code># Find our variables (without NAs)
+nearZeroVar(mydata_train)</code></pre>
+<pre><code>## integer(0)</code></pre>
+<p>No variables with very low variance are found in our train data set. Let’s also omit highly correlated variables as follows (over correlation of 0.9):</p>
+<pre class="r"><code># Correlation values between variables 
+correlations&lt;-  cor(select(mydata_train,-classe))
+# Cut off correlation over 0.9
+highCorr&lt;-  findCorrelation(correlations, cutoff=  0.9)
+# Subset data with our correlation limit
+mydata_train&lt;- mydata_train %&gt;% select(-highCorr)
+mydata_test&lt;- mydata_test %&gt;% select(-highCorr)</code></pre>
+<p>Most of predictive models are based on predicators’ normal distributions. Then, let’s now scale our data sets:</p>
+<pre class="r"><code># Preprocessing: scaling, skewness (without the outcome 'classe') 
+trans&lt;-  preProcess(select(mydata_train,-classe),method=  c('center','scale','BoxCox'))
+
+# Transformed data (train and test) sets 
+mydata_train_trans&lt;- predict(trans,select(mydata_train,-classe))
+mydata_test_trans&lt;- predict(trans,select(mydata_test,-classe))</code></pre>
+<p>We also neglect the remaining highly skew variables as follows:</p>
+<pre class="r"><code># Variables with highly skewness
+Skew_var&lt;- apply(mydata_train_trans,2,skewness) &gt; 10
+# Omit skew variables on data sets  
+mydata_train_trans&lt;- mydata_train_trans[!Skew_var]
+mydata_test_trans&lt;- mydata_test_trans[!Skew_var]
+
+# Add the 'classe' column 
+mydata_train_trans&lt;- mydata_train_trans %&gt;% mutate(classe=mydata_train$classe)
+mydata_test_trans&lt;- mydata_test_trans %&gt;% mutate(classe=mydata_test$classe)
+
+# Check our transformed data sets 
+dim(mydata_train_trans)</code></pre>
+<pre><code>## [1] 19622    43</code></pre>
+<pre class="r"><code>dim(mydata_test_trans)</code></pre>
+<pre><code>## [1] 20 43</code></pre>
+<p>We reduced our initial data sets to have <span class="math">\(43\)</span> variables.</p>
+<p><strong>Data Split</strong><br />The train data set is splitted into a subtrain (to build the predictive model) and a validation (to check the accuracy) parts. The test data set is used in last to predict the required outcomes for this project.</p>
+<pre class="r"><code># Indexes of splitting (subtrain 80% and validation 20% of the train data set)
+Ind_part &lt;- createDataPartition(y=mydata_train_trans$classe, p=0.8, list=F)
+# Split into sub_training and validation parts
+mydata_sub_train&lt;- mydata_train_trans[Ind_part,] 
+mydata_valid&lt;- mydata_train_trans[-Ind_part,]
+
+# Dimension of data sets
+dim(mydata_sub_train)</code></pre>
+<pre><code>## [1] 15699    43</code></pre>
+<pre class="r"><code>dim(mydata_valid)</code></pre>
+<pre><code>## [1] 3923   43</code></pre>
+<p>The subtrain and validation data sets are splitted from <span class="math">\(80\)</span>% and <span class="math">\(20\)</span>% of the train data set, respectively.</p>
+<p><strong>Predictive Models</strong><br />The present project is a classification study in <em>if-then</em> kinds of ways. Obviously, we first use the Decision Tree model, and if necesssary the Random Forest algorithm, both from the caret package.</p>
+<p>We use the k-fold cross validation resampling technique in this study:</p>
+<pre class="r"><code># Type of resampling / 5-fold cross-validation
+control  &lt;-  trainControl(method= 'cv', number=  5)</code></pre>
+<p><em>Decision Tree</em></p>
+<pre class="r"><code># Build the predictive model on the subtrain data set
+DT_model&lt;- train(classe~. , data=mydata_sub_train, method= 'rpart')
+# Predict on the validation data set
+prediction&lt;- predict(DT_model, mydata_valid)
+# Confusion matrix on the validation data set
+confusionMatrix(prediction, mydata_valid$classe)</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction    A    B    C    D    E
+##          A 1015  308  304  258  149
+##          B   16  262   26  132  132
+##          C   68  155  280   62  168
+##          D   17   34   74  155   23
+##          E    0    0    0   36  249
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.4999          
+##                  95% CI : (0.4841, 0.5156)
+##     No Information Rate : 0.2845          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.347           
+##  Mcnemar's Test P-Value : &lt; 2.2e-16       
+## 
+## Statistics by Class:
+## 
+##                      Class: A Class: B Class: C Class: D Class: E
+## Sensitivity            0.9095  0.34519  0.40936  0.24106  0.34535
+## Specificity            0.6370  0.90329  0.86014  0.95488  0.98876
+## Pos Pred Value         0.4990  0.46127  0.38199  0.51155  0.87368
+## Neg Pred Value         0.9465  0.85186  0.87335  0.86519  0.87026
+## Prevalence             0.2845  0.19347  0.17436  0.16391  0.18379
+## Detection Rate         0.2587  0.06679  0.07137  0.03951  0.06347
+## Detection Prevalence   0.5185  0.14479  0.18685  0.07724  0.07265
+## Balanced Accuracy      0.7732  0.62424  0.63475  0.59797  0.66706</code></pre>
+<pre class="r"><code># Plot the Decision Tree
+png('./Figures/unnamed-chunk-13.png',width=800,height=600)
+
+rpart.plot(DT_model$finalModel, main=&quot;Decision Tree&quot;, extra=102, under=T, faclen=0, cex = 0.5,branch = 1, type = 0, fallen.leaves = T)
+
+dev.off()</code></pre>
+<pre><code>## png 
+##   2</code></pre>
+<p><img src="data:image/png;base64,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CNONDxecTiBi0we8dQJhuvHhgtMJRGz6gLdOIEw3PlxwOoGITR/w1gmE6caHC04nELHpA946gTDd+HDB6QQiNn3AWycQphsfLjh9KzuqWttYmelM3+30LUaX6aiqd35j+u6GW5ie/JNuC7upeq/sEtOZvpV1t7Ck1EExfZjTtxTI9Gg7axcw/bqq9pe5pi+q6qDOtnc3PePJu+nj9NO3E8jq62/n+T5F806/Wq5fyTH9p3mdce8/zWeTOufe6/TTtxNIF3OuT9G807+dr1/JMT1vIIvq9C81X0F+e8nb50v3K9dB5Z1e3xxWo/lg/5KTd/oW/nq5zX9b4ce8g5pu4tqTT99KINUvL3eP6QOeXsY/FHb/qLmVhZnO9ND0LSyafklAB4EAAQQCBCQM5OXy5v5y9XjuXtarH955c/vclGZQO9RN7+be3H991v7gcevauetnWP3wzsPsgNtt/ebHZqubc3e/rtt/Fdi+zbz6zbzbunuPm72jrddvn7ub7H6l/ZxLF8hif3n16um3//jh6tU37rA2b37//NXTZDM+zM1yc7uhbno79/Nm9PrfV7ernfv5euKbefv60/XD7IA79KYRt9XNubtfL3fzCerntZW6rTf7drObz4IduH3eXnx3626y+7X+FEwk6VeQ+ur1V4dHt1897VLu3lzsPUs348OultPfubmv/3r7vXvZzXW/Vl/vYng3t5vYbnzpX9nB8NuvDj89/27ebHVz7u5pbg538rVzfeRXr90TrHfsvqZ0nwW74A769qvP21tv9/5y8ymYSNJAptV4UY3dS/e4b7+ZbsYHTZtBR27oop3ezXW//vP3HQyvu7nTzd67V7oT2MV0N3t13Gx19+f+y9bdE3Rb755gV+O7UYvN55x/nFTr8006EEAgQMA2Aml+hHK0+mELK9/Fm/l1Nc42v/2ZTq7peQ/+ZfODrFzzb8+qo63M3kYgV6+++e7l1S5+evQrVo/n7qZyzV/sv37+6mmu6VkPfrHf/IA13/yftjN7G4FMf/f0+sGf/yfLQd2efze/OTzKNv9l8/OrXNNzHnzz4yx39tnmr76utzJ7K4FUR7fP/7U32cLSv2113P4oKdf89ic4uaZnPfjmn+iO8x188zO8bczmm3QggECAAAIBAggECCAQIIBAgAACAQIIBAggECCAQIAAAgECCAQIIBAggECAAAIBAggECCAQIIBAgAACAQIIBAggECCAQIAAAgECCAQIIBAggECAAAIBAggECCAQIIBAgAACAQIIBAggECCAQIAAAgECCAQIIBAggECAAAIBAggECCAQIIBAgAACAQIIBAggECCAQIAAAgECCAQI+H+1MO/AqPxeQAAAAABJRU5ErkJggg==" alt="plot of unnamed-chunk-13" /></p>
+<p>The low accuracy value (~<span class="math">\(50\)</span>%) shows that the Decision Tree is a bad classifier for the present study. Let’s check with the Random Forest model:</p>
+<p><em>Random Forest</em></p>
+<pre class="r"><code># Build the predictive model on the subtrain data set
+RF_model&lt;- train(classe~., data=mydata_sub_train, method = &quot;rf&quot;, trControl = control)</code></pre>
+<pre><code>## Loading required package: randomForest</code></pre>
+<pre><code>## Warning: package 'randomForest' was built under R version 3.2.3</code></pre>
+<pre><code>## randomForest 4.6-12
+## Type rfNews() to see new features/changes/bug fixes.
+## 
+## Attaching package: 'randomForest'
+## 
+## The following object is masked from 'package:dplyr':
+## 
+##     combine</code></pre>
+<pre class="r"><code># Predict on the validation data set
+prediction &lt;- predict(RF_model, mydata_valid)
+# Confusion matrix on the validation data set
+confusionMatrix(prediction, mydata_valid$classe)</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction    A    B    C    D    E
+##          A 1115    8    0    0    0
+##          B    1  746    3    0    0
+##          C    0    5  680    4    0
+##          D    0    0    1  638    1
+##          E    0    0    0    1  720
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.9939          
+##                  95% CI : (0.9909, 0.9961)
+##     No Information Rate : 0.2845          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.9923          
+##  Mcnemar's Test P-Value : NA              
+## 
+## Statistics by Class:
+## 
+##                      Class: A Class: B Class: C Class: D Class: E
+## Sensitivity            0.9991   0.9829   0.9942   0.9922   0.9986
+## Specificity            0.9971   0.9987   0.9972   0.9994   0.9997
+## Pos Pred Value         0.9929   0.9947   0.9869   0.9969   0.9986
+## Neg Pred Value         0.9996   0.9959   0.9988   0.9985   0.9997
+## Prevalence             0.2845   0.1935   0.1744   0.1639   0.1838
+## Detection Rate         0.2842   0.1902   0.1733   0.1626   0.1835
+## Detection Prevalence   0.2863   0.1912   0.1756   0.1631   0.1838
+## Balanced Accuracy      0.9981   0.9908   0.9957   0.9958   0.9992</code></pre>
+<p>As expected, the Random Forest is a better predictive model than the Decision Tree. Indeed, the Random Forest has a larger accuracy (99.4%). Let’s now consider the first <span class="math">\(30\)</span> most important predictors of the Random Forest model (to reduce computing cost):</p>
+<pre class="r"><code># Names of first important variables 
+Imp_vars&lt;-rownames(varImp(RF_model)$importance)[1:30]
+# Build the predictive model on the subtrain data set (with the most important predictors)
+RF_model_2&lt;- train(classe~., data=mydata_sub_train[c(Imp_vars,'classe')], method = &quot;rf&quot;, trControl = control)
+# Predict on the validation data set
+prediction &lt;- predict(RF_model_2, mydata_valid[c(Imp_vars,'classe')])
+# Confusion matrix on the validation data set
+confusionMatrix(prediction, mydata_valid$classe)</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction    A    B    C    D    E
+##          A 1112   11    1    2    0
+##          B    2  740    4    0    0
+##          C    1    7  676   11    1
+##          D    1    0    3  629    3
+##          E    0    1    0    1  717
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.9875          
+##                  95% CI : (0.9835, 0.9907)
+##     No Information Rate : 0.2845          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.9842          
+##  Mcnemar's Test P-Value : NA              
+## 
+## Statistics by Class:
+## 
+##                      Class: A Class: B Class: C Class: D Class: E
+## Sensitivity            0.9964   0.9750   0.9883   0.9782   0.9945
+## Specificity            0.9950   0.9981   0.9938   0.9979   0.9994
+## Pos Pred Value         0.9876   0.9920   0.9713   0.9890   0.9972
+## Neg Pred Value         0.9986   0.9940   0.9975   0.9957   0.9988
+## Prevalence             0.2845   0.1935   0.1744   0.1639   0.1838
+## Detection Rate         0.2835   0.1886   0.1723   0.1603   0.1828
+## Detection Prevalence   0.2870   0.1902   0.1774   0.1621   0.1833
+## Balanced Accuracy      0.9957   0.9865   0.9911   0.9880   0.9969</code></pre>
+<p>In the above condition, we have an acccuracy of <span class="math">\(0.9875\)</span> (in 95% CI: [0.9835, 0.9907]).<strong>The out of sample error is <span class="math">\(1.25\)</span>% (=1-accuracy) which leads to consider the Random Forest model as a good classifier</strong> to obtain outcomes of the test data set as follows:</p>
+<pre class="r"><code># predict on the validation data set
+result_1&lt;-predict(RF_model, mydata_test_trans)
+# predict on the validation data set (with the first 30 important predictors)
+result_2&lt;-predict(RF_model_2, mydata_test_trans[c(Imp_vars,'classe')])</code></pre>
+<p>Note that we have similar predictive results with the first important and all predictors:</p>
+<pre class="r"><code>identical(result_1,result_2)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>With this condition, the required outcomes for this project are the following:</p>
+<pre class="r"><code>result_2</code></pre>
+<pre><code>##  [1] B A B A A E D B A A B C B A E E A B B B
+## Levels: A B C D E</code></pre>
+</div>
+<div id="conclusions" class="section level1">
+<h1>Conclusions</h1>
+<p>A study is presented to predict barbell lifts according to different classes. Data sets (train and test) are first reduced via the characteristics of predictors. These characteristics are the percentage of NAs values, low variance, correlation and skewness. The variables of the data sets are also scaled. The train data set is splitted into subtrain and validation parts to construct a predictive model and evaluate its accuracy. Decision Tree and Random Forest are applied and it was found that this latter is more accurate and gives satisfactory results even with the most mportant predictors.</p>
+<p>This project is reproducible and was done with the following environment:</p>
+<pre class="r"><code># Software environment
+sessionInfo()</code></pre>
+<pre><code>## R version 3.2.0 (2015-04-16)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 8 x64 (build 9200)
+## 
+## locale:
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] randomForest_4.6-12 e1071_1.6-7         rpart.plot_1.5.3   
+## [4] rpart_4.1-10        dplyr_0.4.3         caret_6.0-62       
+## [7] ggplot2_1.0.1       lattice_0.20-33    
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.12.2        compiler_3.2.0     formatR_1.2.1     
+##  [4] nloptr_1.0.4       plyr_1.8.3         class_7.3-14      
+##  [7] iterators_1.0.8    tools_3.2.0        digest_0.6.8      
+## [10] lme4_1.1-10        evaluate_0.8       nlme_3.1-122      
+## [13] gtable_0.1.2       mgcv_1.8-10        Matrix_1.2-0      
+## [16] foreach_1.4.3      DBI_0.3.1          yaml_2.1.13       
+## [19] parallel_3.2.0     SparseM_1.7        proto_0.3-10      
+## [22] stringr_1.0.0      knitr_1.11         MatrixModels_0.4-1
+## [25] stats4_3.2.0       grid_3.2.0         nnet_7.3-11       
+## [28] R6_2.1.1           rmarkdown_0.9      minqa_1.2.4       
+## [31] reshape2_1.4.1     car_2.1-1          magrittr_1.5      
+## [34] scales_0.3.0       codetools_0.2-14   htmltools_0.2.6   
+## [37] MASS_7.3-45        splines_3.2.0      assertthat_0.1    
+## [40] pbkrtest_0.4-4     colorspace_1.2-6   quantreg_5.19     
+## [43] stringi_1.0-1      lazyeval_0.1.10    munsell_0.4.2</code></pre>
+</div>
 
 
 </div>

@@ -2,21 +2,256 @@
 title: "Practical Machine Learning Course Project"
 author: "Samarkande"
 date: "January 19, 2016"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
 ---
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+#Introduction
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+**Background**
+
+Using devices such as *Jawbone Up, Nike FuelBand, and Fitbit* is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement – a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how *much* of a particular activity they do, but they rarely quantify *how well they do it*.  
+In this project, we will be to use data from accelerometers on the belt, forearm, arm, and dumbell of six participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different classes as follows: 
+
+- ```Class A```: Exactly according to the specification 
+- ```Class B```; Throwing the elbows to the front  
+- ```Class C```: Lifting the dumbbell only halfway  
+- ```Class D```: Lowering the dumbbell only halfway  
+- ```Class E```: Throwing the hips to the front  
+
+More information is available from the website [here](http://groupware.les.inf.puc-rio.br/har) (see the section on the Weight Lifting Exercise Dataset).
+
+**Data**
+
+For this project, the training and test data sets are [here](https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv) and [here](https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv), respectively. 
+
+**Goal**
+
+The goal of your project is to predict the manner in which they did the exercise. This is the “```classe```” variable in the training set. You may use any of the other variables to predict with. You should create a report describing how you built your model, how you used cross validation, what you think the expected out of sample error is, and why you made the choices you did. You will also use your prediction model to predict 20 different test cases.
+
+Your submission for the Peer Review portion should consist of a link to a Github repo with your R markdown and compiled HTML file describing your analysis. Please constrain the text of the writeup to < 2000 words and the number of figures to be less than 5. It will make it easier for the graders if you submit a repo with a gh-pages branch so the HTML page can be viewed online (and you always want to make it easy on graders.
+
+# Results
+**Data Processing**  
 
 ```{r}
-summary(cars)
+# Required libraries
+suppressMessages(library(caret))
+suppressMessages(library(dplyr))
+suppressMessages(library(ggplot2))
+suppressMessages(library(rpart.plot)) 
+suppressMessages(library(e1071))  # Skewness function use  
+
+# Setting seed for reproducibility 
+set.seed(123)
 ```
 
-You can also embed plots, for example:
 
-```{r, echo=FALSE}
-plot(cars)
+```{r}
+# Create Data repo
+if(!dir.exists('./Data')){dir.create('./Data')}
+
+# Create Figures repo
+if(!dir.exists('./Figures')){dir.create('./Figures')}
+
+# Load train data set
+if(!file.exists('./Data/pml-training.csv')){
+fileUrl<- 'https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv'
+download.file(fileUrl,destfile='./Data/pml-training.csv',mode = 'wb')
+}
+
+# Load test data set
+if(!file.exists('./Data/pml-testing.csv')){
+fileUrl<- 'https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv'
+download.file(fileUrl,destfile='./Data/pml-testing.csv',mode = 'wb')
+}
+
+# Load train data set
+mydata_train <- read.csv("Data/pml-training.csv", na.strings=c("NA", ""))
+
+# Load test data set
+mydata_test <- read.csv("Data/pml-testing.csv", na.strings=c("NA", ""))
+
+# Check dimension of data sets
+dim(mydata_train); dim(mydata_test)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+The training and test data sets have $19622$ and $20$ observations, respectively. Both have $160$ variables.  
+```{r}
+# Check structure of train data set 
+str(mydata_train)
+```
+We can see from the above that some variables (or predictors) have important numbers of NA values. Let's check in details this presence of NAs:  
+
+```{r}
+# Number of variables with stricly NA values
+sum(colSums(is.na(mydata_train))==dim(mydata_train)[1])
+
+# Number of variables with over 95 % of NA values
+sum(colSums(is.na(mydata_train))>=0.95*dim(mydata_train)[1])
+
+# Number of variables without NA values
+sum(colSums(!is.na(mydata_train))==dim(mydata_train)[1])
+```
+There is zero predictor with stricly NAs. However, $100$ variables are composed of at least $95$% of NAs, while $60$ variables have no NAs. In this condition, we consider these last predictors (with no NAs). Moreover, we also omit the first seven variables (related to the ID of persons) which have a minor influence on the outcome ```classe```: 
+
+```{r}
+# Find variables (without NAs)
+NoNA_Var<- which(colSums(!is.na(mydata_train))==dim(mydata_train)[1])
+# Take into account the above variables without the first seven variables
+mydata_train <- mydata_train %>% select(NoNA_Var) %>% select(-c(1:7))
+mydata_test <- mydata_test %>% select(NoNA_Var) %>% select(-c(1:7))
+```
+
+Let's check variables with very low variance: 
+
+```{r}
+# Find our variables (without NAs)
+nearZeroVar(mydata_train)
+```
+No variables with very low variance are found in our train data set. Let's also omit highly correlated variables as follows (over correlation of 0.9): 
+
+```{r}
+# Correlation values between variables 
+correlations<-  cor(select(mydata_train,-classe))
+# Cut off correlation over 0.9
+highCorr<-  findCorrelation(correlations, cutoff=  0.9)
+# Subset data with our correlation limit
+mydata_train<- mydata_train %>% select(-highCorr)
+mydata_test<- mydata_test %>% select(-highCorr)
+```
+
+Most of predictive models are based on predicators' normal distributions. Then, let's now scale our data sets: 
+```{r}
+# Preprocessing: scaling, skewness (without the outcome 'classe') 
+trans<-  preProcess(select(mydata_train,-classe),method=  c('center','scale','BoxCox'))
+
+# Transformed data (train and test) sets 
+mydata_train_trans<- predict(trans,select(mydata_train,-classe))
+mydata_test_trans<- predict(trans,select(mydata_test,-classe))
+```
+
+We also neglect the remaining highly skew variables as follows: 
+```{r}
+# Variables with highly skewness
+Skew_var<- apply(mydata_train_trans,2,skewness) > 10
+# Omit skew variables on data sets  
+mydata_train_trans<- mydata_train_trans[!Skew_var]
+mydata_test_trans<- mydata_test_trans[!Skew_var]
+
+# Add the 'classe' column 
+mydata_train_trans<- mydata_train_trans %>% mutate(classe=mydata_train$classe)
+mydata_test_trans<- mydata_test_trans %>% mutate(classe=mydata_test$classe)
+
+# Check our transformed data sets 
+dim(mydata_train_trans)
+dim(mydata_test_trans)
+```
+
+We reduced our initial data sets to have $43$ variables.
+
+**Data Split**  
+The train data set is splitted into a subtrain (to build the predictive model) and a validation (to check the accuracy) parts. The test data set is used in last to predict the required outcomes for this project. 
+
+```{r}
+# Indexes of splitting (subtrain 80% and validation 20% of the train data set)
+Ind_part <- createDataPartition(y=mydata_train_trans$classe, p=0.8, list=F)
+# Split into sub_training and validation parts
+mydata_sub_train<- mydata_train_trans[Ind_part,] 
+mydata_valid<- mydata_train_trans[-Ind_part,]
+
+# Dimension of data sets
+dim(mydata_sub_train)
+dim(mydata_valid)
+```
+
+The subtrain and validation data sets are splitted from $80$% and $20$% of the train data set, respectively. 
+
+**Predictive Models**  
+The present project is a classification study in *if-then* kinds of ways. Obviously, we first use the Decision Tree model, and if necesssary the Random Forest algorithm, both from the caret package. 
+
+We use the k-fold cross validation resampling technique in this study:
+```{r}
+# Type of resampling / 5-fold cross-validation
+control  <-  trainControl(method= 'cv', number=  5)
+``` 
+
+*Decision Tree*
+```{r,cache=T}
+# Build the predictive model on the subtrain data set
+DT_model<- train(classe~. , data=mydata_sub_train, method= 'rpart')
+# Predict on the validation data set
+prediction<- predict(DT_model, mydata_valid)
+# Confusion matrix on the validation data set
+confusionMatrix(prediction, mydata_valid$classe)
+```
+
+```{r}
+# Plot the Decision Tree
+png('./Figures/unnamed-chunk-13.png',width=800,height=600)
+
+rpart.plot(DT_model$finalModel, main="Decision Tree", extra=102, under=T, faclen=0, cex = 0.5,branch = 1, type = 0, fallen.leaves = T)
+
+dev.off()
+```
+
+![plot of unnamed-chunk-13](./Figures/unnamed-chunk-13.png) 
+
+The low accuracy value (~$50$%) shows that the Decision Tree is a bad classifier for the present study. Let's check with the Random Forest model: 
+
+*Random Forest*
+```{r,cache=T}
+# Build the predictive model on the subtrain data set
+RF_model<- train(classe~., data=mydata_sub_train, method = "rf", trControl = control)
+# Predict on the validation data set
+prediction <- predict(RF_model, mydata_valid)
+# Confusion matrix on the validation data set
+confusionMatrix(prediction, mydata_valid$classe)
+```
+
+As expected, the Random Forest is a better predictive model than the Decision Tree. Indeed, the Random Forest has a larger accuracy (99.4%). Let's now consider the first $30$ most important predictors of the Random Forest model (to reduce computing cost):  
+```{r,cache=T}
+# Names of first important variables 
+Imp_vars<-rownames(varImp(RF_model)$importance)[1:30]
+# Build the predictive model on the subtrain data set (with the most important predictors)
+RF_model_2<- train(classe~., data=mydata_sub_train[c(Imp_vars,'classe')], method = "rf", trControl = control)
+# Predict on the validation data set
+prediction <- predict(RF_model_2, mydata_valid[c(Imp_vars,'classe')])
+# Confusion matrix on the validation data set
+confusionMatrix(prediction, mydata_valid$classe)
+```
+
+In the above condition, we have an acccuracy of $0.9875$ (in 95% CI: [0.9835, 0.9907]).**The out of sample error is $1.25$% (=1-accuracy) which leads to consider the Random Forest model as a good classifier** to obtain outcomes of the test data set as follows: 
+
+```{r,cache=T}
+# predict on the validation data set
+result_1<-predict(RF_model, mydata_test_trans)
+# predict on the validation data set (with the first 30 important predictors)
+result_2<-predict(RF_model_2, mydata_test_trans[c(Imp_vars,'classe')])
+```
+
+Note that we have similar predictive results with the first important and all predictors:
+```{r}
+identical(result_1,result_2)
+```
+
+With this condition, the required outcomes for this project are the following: 
+```{r}
+result_2
+```
+
+  
+# Conclusions
+
+A study is presented to predict barbell lifts according to different classes. Data sets (train and test) are first reduced via the characteristics of predictors. These characteristics are the percentage of NAs values, low variance, correlation and skewness. The variables of the data sets are also scaled. The train data set is splitted into subtrain and validation parts to construct a predictive model and evaluate its accuracy. Decision Tree and Random Forest are applied and it was found that this latter is more accurate and gives satisfactory results even with the most mportant predictors. 
+
+
+This project is reproducible and was done with the following environment:  
+```{r}
+# Software environment
+sessionInfo()
+```
+
+
+
