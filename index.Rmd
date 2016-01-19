@@ -191,7 +191,7 @@ confusionMatrix(prediction, mydata_valid$classe)
 # Plot the Decision Tree
 png('./Figures/unnamed-chunk-13.png',width=800,height=600)
 
-rpart.plot(DT_model$finalModel, main="Decision Tree", extra=102, under=T, faclen=0, cex = 0.5,branch = 1, type = 0, fallen.leaves = T)
+rpart.plot(DT_model$finalModel, main="Decision Tree", extra=102, under=T, faclen=0, cex = 0.8,branch = 1, type = 0, fallen.leaves = T)
 
 dev.off()
 ```
